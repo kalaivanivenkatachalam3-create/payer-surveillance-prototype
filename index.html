@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Payer Policy Surveillance — Portfolio Prototype</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">PS</div><div><strong>Payer Surveillance</strong><span>AI Policy Intelligence</span></div></div>
+    <nav>
+      <button class="nav-btn active" data-page="updates">Policy Updates</button>
+      <button class="nav-btn" data-page="dashboard">Dashboard</button>
+      <button class="nav-btn" data-page="sources">Source Configuration</button>
+      <div class="nav-group-label">Metrics</div>
+      <button class="nav-btn nav-sub" data-page="business">Business Metrics</button>
+      <button class="nav-btn nav-sub" data-page="operations">Operational Metrics</button>
+      <button class="nav-btn nav-sub" data-page="quality">Model & Coverage Quality</button>
+      <button class="nav-btn nav-sub" data-page="glossary">Glossary</button>
+    </nav>
+    <div class="side-note"><span>Portfolio Prototype</span><small>Sanitized sample data</small></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div><div class="eyebrow">PAYER POLICY SURVEILLANCE</div><h1 id="page-title">Policy Updates</h1></div>
+      <div class="top-actions" id="global-actions">
+        <button class="btn secondary" data-page-link="sources">⚙ Configurations</button>
+        <button class="btn secondary" data-page-link="business">◫ Business Metrics</button>
+        <button class="btn secondary">Export CSV</button>
+        
+      </div>
+    </header>
+
+    <section id="page-updates" class="page active">
+      <div class="filters">
+        <input id="search" placeholder="Search Policy ID / keyword">
+        <select id="payer"><option value="">All Payers</option><option>UnitedHealthcare</option><option>Cigna</option><option>Aetna</option><option>Humana</option></select>
+        <select id="status"><option value="">All Statuses</option><option>New</option><option>Unassigned</option><option>In Review</option><option>Reassigned</option><option>Escalated</option><option>Reviewed — No Action Required</option><option>Sent for Billing Rules Review</option></select>
+        <select id="actionability"><option value="">All Actionability</option><option>High</option><option>Medium</option><option>Low</option></select>
+        <select><option>All Classifications</option><option>Billing</option><option>Authorization</option><option>Enrollment</option><option>Documentation</option></select>
+        <select><option>All Effective Dates</option><option>Within 7 days</option><option>Within 30 days</option><option>Within 60 days</option><option>Custom range</option></select>
+        <div class="date-range"><label>Tool Identified Date</label><input type="date" aria-label="Tool Identified Date From"><span>to</span><input type="date" aria-label="Tool Identified Date To"></div>
+      </div>
+      <div class="section-head"><div><strong>Detected policy changes</strong><span class="muted">Prioritize by effective date and business impact</span></div><div class="section-actions"><span class="count">4 sample records</span><button class="btn primary" onclick="openMissedPolicy()">＋ Report Missed Policy</button></div></div>
+      <div class="table-wrap">
+        <table><thead><tr><th>Policy ID</th><th>Payer</th><th>Policy / Update</th><th>Classification</th><th>Effective Date</th><th>Priority</th><th>Status</th></tr></thead>
+        <tbody id="policy-table"></tbody></table>
+      </div>
+    </section>
+
+    <section id="page-dashboard" class="page">
+      <div class="hero-grid">
+        <div class="hero-card"><span>Policies identified</span><strong>1,248</strong><small>+13% vs 3-month baseline</small></div>
+        <div class="hero-card"><span>Billing rules</span><strong>326</strong><small>26.1% of identified policies</small></div>
+        <div class="hero-card"><span>Actionable</span><strong>287</strong><small>88% of billing-classified</small></div>
+        <div class="hero-card"><span>Before effective date</span><strong>96%</strong><small>Proactive readiness</small></div>
+      </div>
+      <div class="two-col">
+        <div class="card"><div class="card-title">Policy-to-Billing cycle</div><div class="flow"><span>Capture</span><b>→</b><span>Review</span><b>→</b><span>Billing Rules Incorporation</span></div><div class="big-metric">2.4 days <small>median</small></div><div class="muted">3-month baseline: 4.1 days</div></div>
+        <div class="card"><div class="card-title">Post-effective-date misses</div><div class="big-metric">7</div><div class="muted">Actionable policies not incorporated before effective date</div><div class="progress"><i style="width:96%"></i></div><div class="muted">96% incorporated before effective date</div></div>
+      </div>
+      <div class="card"><div class="card-title">Recent operational signals</div><div class="signal-list"><div><b>18</b><span>high-priority policies identified this week</span></div><div><b>12</b><span>policies effective within 7 days</span></div><div><b>39</b><span>policies pending downstream review</span></div></div></div>
+    </section>
+
+    <section id="page-sources" class="page">
+      <div class="section-head"><div><strong>Source Configuration</strong><span class="muted">Targeted payer sources — designed to scale to 100+ payers</span></div><button class="btn primary">+ Add Payer Source</button></div>
+      <div class="table-wrap"><table class="source-table"><thead><tr><th>Payer</th><th>Purpose</th><th>Source URL</th><th>Source Type</th><th>Depth</th><th>Documents</th><th>Status</th><th>Last Scan</th><th></th></tr></thead>
+      <tbody>
+        <tr><td rowspan="3"><b>UnitedHealthcare</b><br><span class="muted">3 configured sources</span></td><td>Reimbursement Policies</td><td><a class="source-link" href="https://www.uhcprovider.com/en/policies-protocols/commercial-policies/commercial-reimbursement-policies.html" target="_blank" rel="noopener">commercial-reimbursement-policies.html ↗</a></td><td><span class="tag">PDF</span></td><td>1</td><td>28</td><td><span class="pill good">Active</span></td><td>2 hrs ago</td><td rowspan="3"><button class="link-btn" onclick="showSourceDetail('UnitedHealthcare')">Configure</button></td></tr>
+        <tr><td>Network Newsroom</td><td><a class="source-link" href="https://www.uhcprovider.com/en/resource-library/news/news-updates.html" target="_blank" rel="noopener">news-updates.html ↗</a></td><td><span class="tag">HTML</span></td><td>2</td><td>12</td><td><span class="pill good">Active</span></td><td>2 hrs ago</td></tr>
+        <tr><td>Individual Exchange Policies</td><td><a class="source-link" href="https://www.uhcprovider.com/en/policies-protocols/exchange-policies/exchanges-medical-drug-policies.html" target="_blank" rel="noopener">exchanges-medical-drug-policies.html ↗</a></td><td><span class="tag">PDF</span></td><td>1</td><td>16</td><td><span class="pill good">Active</span></td><td>2 hrs ago</td></tr>
+        <tr><td><b>Cigna</b></td><td>Provider Newsroom</td><td><span class="source-link muted-link">Configured source URL</span></td><td><span class="tag">HTML</span></td><td>2</td><td>19</td><td><span class="pill good">Active</span></td><td>3 hrs ago</td><td><button class="link-btn" onclick="showSourceDetail('Cigna')">Configure</button></td></tr>
+        <tr><td><b>Aetna</b></td><td>Provider Policy Updates</td><td><span class="source-link muted-link">Configured source URL</span></td><td><span class="tag">HTML</span></td><td>2</td><td>34</td><td><span class="pill good">Active</span></td><td>1 hr ago</td><td><button class="link-btn" onclick="showSourceDetail('Aetna')">Configure</button></td></tr>
+        <tr><td><b>Humana</b></td><td>Provider Newsroom</td><td><span class="source-link muted-link">Configured source URL</span></td><td><span class="tag">HTML</span></td><td>2</td><td>17</td><td><span class="pill good">Active</span></td><td>5 hrs ago</td><td><button class="link-btn" onclick="showSourceDetail('Humana')">Configure</button></td></tr>
+      </tbody></table></div>
+      <div class="source-note">Each configured source is intentionally targeted: purpose, URL, source type, and crawl depth are visible so administrators can control exactly what the surveillance workflow reaches. MVP / Phase 2 scope stays inside configuration details.</div>
+      <div id="source-detail" class="card hidden"></div>
+    </section>
+
+    <section id="page-business" class="page">
+      <div class="analytics-filter"><span class="muted">Admin / Super User view</span><div class="date-range"><label>Analysis Period</label><input type="date" aria-label="Business Metrics Date From"><span>to</span><input type="date" aria-label="Business Metrics Date To"></div><select><option>All Payers</option><option>UnitedHealthcare</option><option>Cigna</option><option>Aetna</option><option>Humana</option></select></div>
+      <h2>Business Metrics</h2>
+      <div class="card funnel-card">
+        <div class="funnel-head"><div><div class="card-title">Policies identified</div><div class="muted">Classification breakdown</div></div><div class="funnel-total"><b>1,248</b><span>total identified</span></div></div>
+        <div class="classification-math">
+          <div class="classification-item billing"><span>Billing</span><b>326</b><em>26.1%</em></div>
+          <div class="classification-item"><span>Authorization</span><b>648</b><em>51.9%</em></div>
+          <div class="classification-item"><span>Documentation</span><b>274</b><em>22.0%</em></div>
+        </div>
+        <div class="math-caption">326 Billing + 648 Authorization + 274 Documentation = <b>1,248 policies identified</b></div>
+      </div>
+      <div class="card funnel-card">
+        <div class="funnel-head"><div><div class="card-title">Billing relevance</div><div class="muted">Actionability within the 326 Billing policies</div></div><div class="funnel-total"><b>326</b><span>billing-classified</span></div></div>
+        <div class="actionability-row"><div class="actionability-item billing"><span>Actionable Billing</span><b>287</b><em>88.0% billing relevance rate</em></div><div class="actionability-item"><span>Not actionable</span><b>39</b><em>12.0% of billing-classified</em></div></div>
+        <div class="math-caption">287 actionable + 39 not actionable = <b>326 billing-classified policies</b></div>
+      </div>
+      <div class="card"><div class="card-title">Policy → Billing</div><div class="metric-row"><div><span>Median Capture → Review</span><b>0.8 days</b></div><div><span>Median Review → Billing</span><b>1.6 days</b></div><div><span>Median end-to-end</span><b>2.4 days</b></div><div><span>Before effective date</span><b>96%</b></div><div><span>Post-effective misses</span><b>7</b></div></div></div>
+      <div class="card practice-card">
+        <div class="practice-head"><div><div class="card-title">Practice-Reported Rules</div><div class="muted">Business-indicative metric — not the North Star</div></div><button class="btn secondary" onclick="openRulesImport()">Import Practice-Reported Rules (XLS)</button></div>
+        <div class="baseline-current"><div><span>2025 baseline</span><b>2,500</b><small>practice-reported rules / year</small></div><div><span>2026 YTD</span><b>1,640</b><small>Jan–Aug 2026</small></div><div><span>Same-period baseline</span><b>1,667</b><small>8/12 of 2025 annual baseline</small></div><div><span>YTD reduction</span><b>−1.6%</b><small>vs 2025 run-rate for same period</small></div></div>
+        <div class="trend-box"><div class="trend-title"><b>Practice-reported rule trend</b><span class="muted">2025 annual baseline vs 2026 monthly activity</span></div><div class="trend-bars monthly"><div class="trend-bar"><span>2025 baseline run-rate</span><i style="height:100%"></i><b>208/mo</b></div><div class="trend-bar"><span>2026 YTD avg</span><i style="height:98%"></i><b>205/mo</b></div></div></div>
+        <div class="import-note">ⓘ Jira references can be included in the imported practice-reported rules for traceability back to the source card.</div>
+        <div class="comparison-strip"><div><span>Practice-reported rules</span><b>1,640</b></div><div class="arrow">→</div><div><span>Already detected by tool</span><b>1,431</b></div><div class="arrow">→</div><div><span>Potentially missed</span><b>209</b></div></div>
+        <div class="muted metric-footnote">The imported practice-reported dataset is used as a business-indicative comparison and coverage signal; it is not the product North Star.</div>
+      </div>
+    </section>
+
+    <section id="page-operations" class="page">
+      <div class="analytics-filter"><span class="muted">Admin / Super User view</span><div class="date-range"><label>Analysis Period</label><input type="date" aria-label="Operational Metrics Date From"><span>to</span><input type="date" aria-label="Operational Metrics Date To"></div><select><option>All Payers</option><option>UnitedHealthcare</option><option>Cigna</option><option>Aetna</option><option>Humana</option></select></div>
+      <h2>Operational Metrics</h2>
+      <div class="priority-card card"><div class="funnel-head"><div><div class="card-title">Upcoming Policy Priorities</div><div class="muted">Prioritize work based on when policy changes become effective</div></div><div class="readiness-pill">96% on-time billing updates</div></div><div class="deadline-row"><div><span>Due Today</span><b>3</b><em>Highest priority</em></div><div><span>Due Tomorrow</span><b>14</b><em>Review next</em></div><div><span>Due in Next 5 Days</span><b>50+</b><em>Plan workload</em></div></div></div>
+      <div class="card"><div class="card-title">Policy to Billing Progress</div><div class="metric-row"><div><span>Time to Policy Review</span><b>0.8 days</b><em>Median</em></div><div><span>Time to Billing Update</span><b>1.6 days</b><em>Median</em></div><div><span>End-to-End Time</span><b>2.4 days</b><em>Median</em></div><div><span>On-Time Billing Updates</span><b>96%</b><em>Before effective date</em></div><div><span>Late Billing Updates</span><b>7</b><em>After effective date</em></div></div></div>
+      <div class="card trend-card"><div class="trend-head"><div><div class="card-title">Policy to Billing Trend</div><div class="muted">Monthly median time across the selected date range</div></div><span class="trend-unit">Days</span></div><div class="trend-chart"><div class="y-labels"><span>4d</span><span>3d</span><span>2d</span><span>1d</span><span>0d</span></div><div class="chart-area"><div class="grid-line g1"></div><div class="grid-line g2"></div><div class="grid-line g3"></div><div class="grid-line g4"></div><div class="grid-line g5"></div><svg viewBox="0 0 760 220" preserveAspectRatio="none" aria-label="Monthly policy to billing trend"><polyline class="trend-line line-capture" points="20,168 125,155 230,160 335,142 440,150 545,132 650,125 740,118"></polyline><polyline class="trend-line line-review" points="20,112 125,120 230,105 335,118 440,98 545,92 650,84 740,78"></polyline><polyline class="trend-line line-e2e" points="20,58 125,72 230,61 335,70 440,50 545,42 650,32 740,25"></polyline></svg><div class="x-labels"><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span></div></div></div><div class="trend-legend"><span><i class="legend-capture"></i>Time to Policy Review</span><span><i class="legend-review"></i>Time to Billing Update</span><span><i class="legend-e2e"></i>End-to-End Time</span></div></div>
+      <div class="two-col"><div class="card"><div class="card-title">Workload</div><div class="bars"><div><span>Clara</span><i style="width:84%"></i><b>42</b></div><div><span>John</span><i style="width:76%"></i><b>38</b></div><div><span>Priya</span><i style="width:70%"></i><b>35</b></div><div><span>David</span><i style="width:58%"></i><b>29</b></div></div></div><div class="card"><div class="card-title">Policy classification</div><div class="donut"><div class="donut-center">1,248<small>policies</small></div></div><div class="legend"><span>Billing 26%</span><span>Authorization 52%</span><span>Documentation 22%</span></div></div></div>
+      <div class="card"><div class="card-title">Operational flow</div><div class="metric-row"><div><span>Policies pending review</span><b>39</b></div><div><span>Assigned to reviewers</span><b>154</b></div><div><span>Median review time</span><b>0.8 days</b></div><div><span>Billing handoff pending</span><b>18</b></div></div></div>
+    </section>
+
+    <section id="page-quality" class="page">
+      <div class="analytics-filter"><span class="muted">Admin / Super User view</span><div class="date-range"><label>Quality Date</label><input type="date" aria-label="Quality Date From"><span>to</span><input type="date" aria-label="Quality Date To"></div><select><option>All Payers</option><option>UnitedHealthcare</option><option>Cigna</option><option>Aetna</option><option>Humana</option></select></div>
+      <h2>Model & Coverage Quality</h2>
+      <div class="kpis"><div class="kpi"><span>Classification Accuracy</span><b>92%</b><em>Human validated</em></div><div class="kpi"><span>Actionability Accuracy</span><b>90%</b><em>Human validated</em></div><div class="kpi"><span>Capture Completeness</span><b>94.5%</b><em>1,248 captured / 1,320 expected</em></div><div class="kpi"><span>Missed Policies Reported</span><b>72</b><em>Coverage feedback</em></div></div>
+      <div class="two-col"><div class="card"><div class="card-title">Classification accuracy breakdown</div><table class="compact"><thead><tr><th>Classification</th><th>Accuracy</th></tr></thead><tbody><tr><td>Overall</td><td>92%</td></tr><tr><td>Billing</td><td>94%</td></tr><tr><td>Authorization</td><td>91%</td></tr><tr><td>Documentation</td><td>89%</td></tr></tbody></table></div><div class="card"><div class="card-title">Capture completeness</div><div class="big-metric">94.5% <small>1,248 / 1,320 expected</small></div><div class="progress"><i style="width:94.5%"></i></div><div class="muted">Expected policy set vs policies captured by the surveillance workflow.</div></div></div>
+      <div class="card"><div class="card-title">Coverage gaps by source type</div><table class="compact"><thead><tr><th>Source Type</th><th>Gaps</th><th>Share</th></tr></thead><tbody><tr><td>PDF</td><td>40</td><td>56%</td></tr><tr><td>HTML</td><td>18</td><td>25%</td></tr><tr><td>XLS</td><td>14</td><td>19%</td></tr></tbody></table></div>
+      <div class="card missed-card"><div><div class="card-title">Missed Policy Reporting</div><div class="muted">Upload a missed policy/document from practice to improve capture coverage analysis.</div></div></div>
+    </section>
+
+    <section id="page-glossary" class="page">
+      <div class="analytics-filter"><span class="muted">Shared product terminology</span></div>
+      <h2>Glossary</h2>
+      <div class="card"><div class="card-title">Business and engineering definitions</div><div class="muted">Use these definitions as the shared vocabulary across Product, Engineering, Operations, and Billing teams.</div>
+      <div class="table-wrap glossary-wrap"><table class="compact glossary-table"><thead><tr><th>Term</th><th>Business definition</th><th>Engineering meaning</th></tr></thead><tbody>
+      <tr><td><b>Time to Policy Review</b></td><td>How quickly an identified policy is reviewed.</td><td>Elapsed time from policy identification to completion of policy review.</td></tr>
+      <tr><td><b>Time to Billing Update</b></td><td>How quickly a validated policy change reaches the billing update process.</td><td>Elapsed time from completed policy review/validation to billing update handoff.</td></tr>
+      <tr><td><b>End-to-End Time</b></td><td>Total time from policy identification to billing update.</td><td>Elapsed time from the initial identified event through billing update handoff.</td></tr>
+      <tr><td><b>On-Time Billing Update</b></td><td>Billing update completed before the policy becomes effective.</td><td>Billing update timestamp is earlier than the policy effective date.</td></tr>
+      <tr><td><b>Late Billing Update</b></td><td>Billing update completed after the policy becomes effective.</td><td>Billing update timestamp is later than the policy effective date.</td></tr>
+      <tr><td><b>Practice-Reported Rule</b></td><td>A billing rule or issue reported by the practice.</td><td>Imported business-reported record, optionally linked to a Jira reference.</td></tr>
+      <tr><td><b>Tool-Detected Rule</b></td><td>A rule identified proactively by Payer Surveillance.</td><td>Policy-derived rule that meets the product's defined billing/actionability criteria.</td></tr>
+      <tr><td><b>Potentially Missed Rule</b></td><td>A practice-reported rule not identified by the tool.</td><td>A reported rule with no matching tool-detected rule in the comparison dataset.</td></tr>
+      <tr><td><b>Actionable Policy</b></td><td>A policy change that requires a billing or workflow action.</td><td>Policy classified as actionable according to the standardized taxonomy and validation outcome.</td></tr>
+      <tr><td><b>Policy Effective Date</b></td><td>Date from which the payer policy change applies.</td><td>Reference date used for priority and on-time billing calculations.</td></tr>
+      <tr><td><b>Classification</b></td><td>Business category such as Billing, Authorization, or Documentation.</td><td>Standardized policy taxonomy category assigned by the surveillance workflow.</td></tr>
+      </tbody></table></div></div>
+    </section>
+
+    <section id="page-analysis" class="page">
+      <button class="back" onclick="go('updates')">← Back to Policy Updates</button>
+      <div id="analysis-content"></div>
+    </section>
+  </main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
